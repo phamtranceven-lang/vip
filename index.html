@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="vi"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <title>Menu 30 Website</title>
+  <style>
+    :root {
+      --bg: #08101f;
+      --panel: rgba(15, 23, 42, 0.84);
+      --card: rgba(30, 41, 59, 0.78);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --line: rgba(255,255,255,.10);
+      --accent: #8b5cf6;
+      --accent2: #06b6d4;
+      --danger: #fb7185;
+      --success: #34d399;
+      --gap: 10px;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; min-height: 100%; }
+    body {
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(139,92,246,.22), transparent 27%),
+        radial-gradient(circle at 88% 18%, rgba(6,182,212,.16), transparent 24%),
+        var(--bg);
+    }
+
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+
+    .app {
+      width: 100%;
+      min-height: 100vh;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .topbar {
+      flex: 0 0 auto;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(240px, 420px) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(8, 16, 31, .86);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.24);
+    }
+
+    .brand {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      font-size: 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 8px 20px rgba(139,92,246,.25);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(17px, 2vw, 24px);
+      line-height: 1.05;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .search {
+      width: 100%;
+      border: 1px solid var(--line);
+      outline: none;
+      color: var(--text);
+      background: rgba(2,6,23,.55);
+      border-radius: 13px;
+      padding: 10px 12px;
+    }
+
+    .search:focus {
+      border-color: rgba(139,92,246,.7);
+      box-shadow: 0 0 0 3px rgba(139,92,246,.12);
+    }
+
+    .tools {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: nowrap;
+    }
+
+    .tool-btn, .zoom-btn {
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: rgba(255,255,255,.055);
+      border-radius: 11px;
+      padding: 9px 11px;
+      font-weight: 800;
+      white-space: nowrap;
+      transition: .18s ease;
+    }
+
+    .tool-btn:hover, .zoom-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.10);
+    }
+
+    .zoom-box {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      overflow: hidden;
+      background: rgba(255,255,255,.04);
+    }
+
+    .zoom-btn {
+      border: 0;
+      border-radius: 0;
+      min-width: 34px;
+      padding: 9px 10px;
+    }
+
+    .zoom-value {
+      min-width: 50px;
+      text-align: center;
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .grid-wrap {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .grid {
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-rows: repeat(5, minmax(0, 1fr));
+      gap: var(--gap);
+      transform-origin: top left;
+    }
+
+    .card {
+      min-width: 0;
+      min-height: 0;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(150deg, rgba(30,41,59,.90), rgba(15,23,42,.78));
+      box-shadow: 0 10px 24px rgba(0,0,0,.20);
+      transition: transform .18s ease, border-color .18s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(139,92,246,.35);
+    }
+
+    .card.hidden { display: none; }
+
+    /* Phân biệt cực rõ: có web = neon sống động, chưa có web = đen hẳn */
+    .card.active-site {
+      opacity: 1;
+      border: 1px solid rgba(34, 211, 238, .62);
+      background:
+        radial-gradient(circle at 82% 8%, rgba(34, 211, 238, .24), transparent 34%),
+        radial-gradient(circle at 15% 95%, rgba(139, 92, 246, .22), transparent 42%),
+        linear-gradient(145deg, rgba(18, 30, 55, .98), rgba(8, 15, 29, .98));
+      box-shadow:
+        0 0 0 1px rgba(139, 92, 246, .18),
+        0 0 18px rgba(34, 211, 238, .22),
+        0 0 38px rgba(139, 92, 246, .13),
+        0 16px 34px rgba(0, 0, 0, .36);
+      animation: activeCardBreath 3.4s ease-in-out infinite;
+    }
+
+    .card.active-site::before {
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        #7c3aed,
+        #22d3ee,
+        #34d399,
+        #f472b6,
+        #7c3aed
+      );
+      background-size: 300% 100%;
+      animation: topLineFlow 3s linear infinite;
+      box-shadow: 0 0 16px rgba(34, 211, 238, .85);
+    }
+
+    .card.active-site::after {
+      content: "";
+      position: absolute;
+      inset: -90% -45%;
+      pointer-events: none;
+      background: linear-gradient(
+        115deg,
+        transparent 43%,
+        rgba(255,255,255,.04) 47%,
+        rgba(255,255,255,.26) 50%,
+        rgba(255,255,255,.04) 53%,
+        transparent 57%
+      );
+      transform: translateX(-52%);
+      animation: cardSweep 3.8s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .card.active-site > * {
+      position: relative;
+      z-index: 1;
+    }
+
+
+    .card.active-site .card-head {
+      padding-right: 2px;
+    }
+
+    .card.active-site .name {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .card.active-site .name {
+      color: transparent;
+      background: linear-gradient(
+        90deg,
+        #ffffff 0%,
+        #67e8f9 18%,
+        #c4b5fd 38%,
+        #f9a8d4 58%,
+        #ffffff 76%,
+        #34d399 100%
+      );
+      background-size: 260% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation:
+        titleShimmer 2.4s linear infinite,
+        titleFloat 2.8s ease-in-out infinite;
+      text-shadow:
+        0 0 8px rgba(255,255,255,.18),
+        0 0 20px rgba(34,211,238,.22);
+      letter-spacing: .01em;
+    }
+
+    .card.active-site .num {
+      background: linear-gradient(135deg, #7c3aed, #06b6d4, #34d399);
+      background-size: 220% 220%;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.18),
+        0 0 14px rgba(34,211,238,.55),
+        0 0 26px rgba(139,92,246,.35);
+      animation:
+        numberPulse 1.8s ease-in-out infinite,
+        numGradient 3s ease infinite;
+    }
+
+    .card.active-site .note {
+      color: #e2e8f0;
+    }
+
+    .card.active-site .url-preview {
+      color: #67e8f9;
+      text-shadow: 0 0 10px rgba(34,211,238,.25);
+    }
+
+    .card.active-site .open-btn {
+      background: linear-gradient(90deg, #7c3aed, #06b6d4, #34d399, #7c3aed);
+      background-size: 260% 100%;
+      box-shadow:
+        0 0 16px rgba(34,211,238,.28),
+        inset 0 0 0 1px rgba(255,255,255,.12);
+      animation: buttonFlow 2.4s linear infinite;
+    }
+
+    .card.active-site .edit-btn {
+      background: rgba(255,255,255,.11);
+      border-color: rgba(103,232,249,.24);
+      box-shadow: inset 0 0 0 1px rgba(139,92,246,.10);
+    }
+
+    .live-dot {
+      flex: 0 0 auto;
+      width: 9px;
+      height: 9px;
+      margin-left: auto;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow:
+        0 0 0 4px rgba(52,211,153,.10),
+        0 0 16px rgba(52,211,153,1),
+        0 0 30px rgba(52,211,153,.55);
+      animation: livePulse 1.25s ease-in-out infinite;
+    }
+
+    .card.empty-site {
+      opacity: 1;
+      filter: grayscale(.35);
+      color: #2f333a;
+      border: 1px solid #090b10;
+      background: #000000;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.008),
+        0 8px 18px rgba(0,0,0,.58);
+    }
+
+    .card.empty-site::before {
+      height: 2px;
+      background: #080a0f;
+      box-shadow: none;
+    }
+
+    .card.empty-site .num {
+      color: #6b7280;
+      background: #111318;
+      border: 1px solid #1b1f27;
+      box-shadow: none;
+    }
+
+    .card.empty-site .name {
+      color: #363a42;
+      text-shadow: none;
+    }
+
+    .card.empty-site .note,
+    .card.empty-site .url-preview {
+      color: #20242b;
+      opacity: 1;
+    }
+
+    .card.empty-site .open-btn {
+      color: #2c3037;
+      background: #050609;
+      border: 1px solid #0c0f14;
+      box-shadow: none;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .card.empty-site .edit-btn {
+      color: #9ca3af;
+      background: #11141a;
+      border: 1px solid #1f242d;
+    }
+
+    .card.empty-site:hover {
+      border-color: #242a35;
+      background: #05070a;
+      transform: translateY(-2px);
+    }
+
+    .card.empty-site:hover .edit-btn {
+      color: #e5e7eb;
+      background: #181c24;
+    }
+
+    .card.just-deleted {
+      animation: deleteBlackout .42s ease both;
+    }
+
+    @keyframes deleteBlackout {
+      0% {
+        transform: scale(1.02);
+        filter: brightness(1.45);
+      }
+      100% {
+        transform: scale(1);
+        filter: brightness(.55) grayscale(.55);
+      }
+    }
+
+    @keyframes titleShimmer {
+      to { background-position: -260% center; }
+    }
+
+    @keyframes titleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-1.5px); }
+    }
+
+    @keyframes cardSweep {
+      0%, 56% { transform: translateX(-52%); opacity: 0; }
+      64% { opacity: 1; }
+      88%, 100% { transform: translateX(52%); opacity: 0; }
+    }
+
+    @keyframes numberPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.09); }
+    }
+
+    @keyframes livePulse {
+      0%, 100% { transform: scale(.88); opacity: .72; }
+      50% { transform: scale(1.28); opacity: 1; }
+    }
+
+    @keyframes activeCardBreath {
+      0%, 100% {
+        box-shadow:
+          0 0 0 1px rgba(139, 92, 246, .16),
+          0 0 14px rgba(34, 211, 238, .18),
+          0 0 30px rgba(139, 92, 246, .10),
+          0 16px 34px rgba(0,0,0,.34);
+      }
+      50% {
+        box-shadow:
+          0 0 0 1px rgba(34, 211, 238, .28),
+          0 0 24px rgba(34, 211, 238, .34),
+          0 0 46px rgba(139, 92, 246, .20),
+          0 18px 38px rgba(0,0,0,.40);
+      }
+    }
+
+    @keyframes topLineFlow {
+      to { background-position: 300% 0; }
+    }
+
+    @keyframes numGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes buttonFlow {
+      to { background-position: 260% 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card.active-site,
+      .card.active-site::before,
+      .card.active-site::after,
+      .card.active-site .name,
+      .card.active-site .num,
+      .card.active-site .open-btn,
+      .live-dot {
+        animation: none !important;
+      }
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      margin-bottom: 6px;
+    }
+
+    .num {
+      flex: 0 0 auto;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 950;
+      color: #fff;
+      background: linear-gradient(135deg, rgba(139,92,246,.72), rgba(6,182,212,.55));
+    }
+
+    .name {
+      min-width: 0;
+      margin: 0;
+      font-size: clamp(12px, 1.1vw, 15px);
+      line-height: 1.2;
+      font-weight: 900;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .note {
+      flex: 1 1 auto;
+      min-height: 0;
+      margin: 0;
+      color: #cbd5e1;
+      font-size: clamp(9px, .72vw, 11px);
+      line-height: 1.35;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .url-preview {
+      margin-top: 5px;
+      color: #67e8f9;
+      opacity: .85;
+      font-size: 9px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .actions {
+      flex: 0 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 7px;
+    }
+
+    .open-btn, .edit-btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 7px 6px;
+      color: white;
+      font-size: 10px;
+      font-weight: 900;
+      transition: .18s ease;
+    }
+
+    .open-btn {
+      background: linear-gradient(135deg, #7c3aed, #0891b2);
+    }
+
+    .edit-btn {
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .open-btn:hover, .edit-btn:hover { filter: brightness(1.12); }
+
+    .empty {
+      display: none;
+      height: 100%;
+      place-items: center;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: 18px;
+    }
+
+    .empty.show { display: grid; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      place-items: center;
+      padding: 18px;
+      background: rgba(2,6,23,.72);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal.show { display: grid; }
+
+    .modal-card {
+      width: min(560px, 100%);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #101827;
+      box-shadow: 0 30px 80px rgba(0,0,0,.5);
+      overflow: hidden;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .modal-head h2 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .close-btn {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      color: #fff;
+      background: rgba(255,255,255,.06);
+      font-size: 22px;
+    }
+
+    .form {
+      display: grid;
+      gap: 13px;
+      padding: 18px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .field input, .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      outline: none;
+      border-radius: 12px;
+      color: var(--text);
+      background: rgba(2,6,23,.52);
+      padding: 11px 12px;
+    }
+
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    .field input:focus, .field textarea:focus {
+      border-color: rgba(6,182,212,.62);
+      box-shadow: 0 0 0 3px rgba(6,182,212,.10);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0 18px 18px;
+    }
+
+    .save-btn, .delete-btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 16px;
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .save-btn {
+      flex: 1;
+      background: linear-gradient(135deg, #7c3aed, #0891b2);
+    }
+
+    .delete-btn {
+      background: rgba(251,113,133,.15);
+      color: #fecdd3;
+      border: 1px solid rgba(251,113,133,.25);
+    }
+
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 200;
+      max-width: min(420px, calc(100vw - 32px));
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(15,23,42,.96);
+      color: #fff;
+      box-shadow: 0 16px 40px rgba(0,0,0,.35);
+      opacity: 0;
+      transform: translateY(16px);
+      pointer-events: none;
+      transition: .22s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hidden-input { display: none; }
+
+    @media (min-width: 1001px) {
+      html, body { height: 100%; overflow: hidden; }
+      .app { height: 100vh; }
+    }
+
+    @media (max-width: 1200px) {
+      .grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-rows: repeat(6, minmax(0, 1fr));
+      }
+      .topbar { grid-template-columns: minmax(180px, 1fr) minmax(220px, 330px) auto; }
+      .tool-btn span { display: none; }
+    }
+
+    @media (max-width: 1000px) {
+      .topbar {
+        grid-template-columns: 1fr;
+      }
+      .tools { flex-wrap: wrap; }
+      .grid-wrap { overflow: visible; }
+      .grid {
+        height: auto;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: none;
+      }
+      .card { min-height: 150px; }
+      .brand p { white-space: normal; }
+    }
+
+    @media (max-width: 680px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .app { padding: 7px; }
+      .topbar { border-radius: 14px; }
+      .card { min-height: 145px; }
+    }
+
+    @media (max-width: 440px) {
+      .grid { grid-template-columns: 1fr; }
+      .card { min-height: 135px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon">⌂</div>
+        <div style="min-width:0">
+          <h1>Menu 30 Website</h1>
+          <p>Zoom chỉ áp dụng cho các ô website · Thanh công cụ luôn giữ nguyên</p>
+        </div>
+      </div>
+
+      <input id="searchInput" class="search" type="search" placeholder="Tìm tên, link hoặc chú thích..." autocomplete="off">
+
+      <div class="tools">
+        <div class="zoom-box" title="Thu nhỏ hoặc phóng to riêng phần danh sách website">
+          <button id="zoomOutBtn" class="zoom-btn" type="button">−</button>
+          <div id="zoomValue" class="zoom-value">100%</div>
+          <button id="zoomInBtn" class="zoom-btn" type="button">+</button>
+        </div>
+        <button id="exportBtn" class="tool-btn" type="button">⬇ <span>Xuất</span></button>
+        <button id="importBtn" class="tool-btn" type="button">⬆ <span>Nhập</span></button>
+        <input id="importFile" class="hidden-input" type="file" accept=".json,application/json">
+      </div>
+    </header>
+
+    <section class="grid-wrap">
+      <div id="grid" class="grid" style="zoom: 1; width: 100%; height: 100%; display: grid;"><article class="card active-site">
+          <div class="card-head">
+            <div class="num">01</div>
+            <h2 class="name" title="Tạo ngẫu nhiên">Tạo ngẫu nhiên</h2>
+            <span class="live-dot" title="Đã có website"></span>
+          </div>
+          <p class="note">Chưa có chú thích</p>
+          <div class="url-preview" title="https://phamtranceven-lang.github.io/ALO/taongaunhienso.html">https://phamtranceven-lang.github.io/ALO/taongaunhienso.html</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Mở web ↗</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card active-site">
+          <div class="card-head">
+            <div class="num">02</div>
+            <h2 class="name" title="DTE201">DTE201</h2>
+            <span class="live-dot" title="Đã có website"></span>
+          </div>
+          <p class="note">Chưa có chú thích</p>
+          <div class="url-preview" title="https://phamtranceven-lang.github.io/ALO/dte201.html">https://phamtranceven-lang.github.io/ALO/dte201.html</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Mở web ↗</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card active-site">
+          <div class="card-head">
+            <div class="num">03</div>
+            <h2 class="name" title="Tính GPA DTU">Tính GPA DTU</h2>
+            <span class="live-dot" title="Đã có website"></span>
+          </div>
+          <p class="note">Chưa có chú thích</p>
+          <div class="url-preview" title="https://phamtranceven-lang.github.io/tinhgpadtu/">https://phamtranceven-lang.github.io/tinhgpadtu/</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Mở web ↗</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">04</div>
+            <h2 class="name" title="Website 4">Website 4</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">05</div>
+            <h2 class="name" title="Website 5">Website 5</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">06</div>
+            <h2 class="name" title="Website 6">Website 6</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">07</div>
+            <h2 class="name" title="Website 7">Website 7</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">08</div>
+            <h2 class="name" title="Website 8">Website 8</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">09</div>
+            <h2 class="name" title="Website 9">Website 9</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">10</div>
+            <h2 class="name" title="Website 10">Website 10</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">11</div>
+            <h2 class="name" title="Website 11">Website 11</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">12</div>
+            <h2 class="name" title="Website 12">Website 12</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">13</div>
+            <h2 class="name" title="Website 13">Website 13</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">14</div>
+            <h2 class="name" title="Website 14">Website 14</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">15</div>
+            <h2 class="name" title="Website 15">Website 15</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">16</div>
+            <h2 class="name" title="Website 16">Website 16</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">17</div>
+            <h2 class="name" title="Website 17">Website 17</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">18</div>
+            <h2 class="name" title="Website 18">Website 18</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">19</div>
+            <h2 class="name" title="Website 19">Website 19</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">20</div>
+            <h2 class="name" title="Website 20">Website 20</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">21</div>
+            <h2 class="name" title="Website 21">Website 21</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">22</div>
+            <h2 class="name" title="Website 22">Website 22</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">23</div>
+            <h2 class="name" title="Website 23">Website 23</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">24</div>
+            <h2 class="name" title="Website 24">Website 24</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">25</div>
+            <h2 class="name" title="Website 25">Website 25</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">26</div>
+            <h2 class="name" title="Website 26">Website 26</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">27</div>
+            <h2 class="name" title="Website 27">Website 27</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">28</div>
+            <h2 class="name" title="Website 28">Website 28</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">29</div>
+            <h2 class="name" title="Website 29">Website 29</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article><article class="card empty-site">
+          <div class="card-head">
+            <div class="num">30</div>
+            <h2 class="name" title="Website 30">Website 30</h2>
+            
+          </div>
+          <p class="note">Ô trống</p>
+          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
+          <div class="actions">
+            <button class="open-btn" type="button">Chưa có web</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        </article></div>
+      <div id="emptyState" class="empty">Không tìm thấy website phù hợp.</div>
+    </section>
+  </main>
+
+  <div id="editorModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="modalTitle">Thay đổi website</h2>
+        <button id="closeModalBtn" class="close-btn" type="button" aria-label="Đóng">×</button>
+      </div>
+
+      <form id="editForm">
+        <div class="form">
+          <div class="field">
+            <label for="editTitle">Tên website</label>
+            <input id="editTitle" type="text" maxlength="100" placeholder="Ví dụ: Tính GPA DTU">
+          </div>
+
+          <div class="field">
+            <label for="editUrl">Đường dẫn</label>
+            <input id="editUrl" type="url" placeholder="https://...">
+          </div>
+
+          <div class="field">
+            <label for="editNote">Chú thích</label>
+            <textarea id="editNote" maxlength="1500" placeholder="Tự ghi chú ở đây..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button id="deleteBtn" class="delete-btn" type="button">Xóa ô</button>
+          <button class="save-btn" type="submit">Lưu thay đổi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const STORAGE_KEY = "menu_30_websites_v2";
+    const LEGACY_STORAGE_KEY = "menu_30_websites_v1";
+    const ZOOM_KEY = "menu_30_websites_zoom";
+    const SLOT_COUNT = 30;
+
+    const defaults = Array.from({ length: SLOT_COUNT }, (_, index) => ({
+      id: index + 1,
+      title: "",
+      url: "",
+      note: ""
+    }));
+
+    defaults[0] = {
+      id: 1,
+      title: "Tạo ngẫu nhiên",
+      url: "https://phamtranceven-lang.github.io/ALO/taongaunhienso.html",
+      note: ""
+    };
+
+    defaults[1] = {
+      id: 2,
+      title: "DTE201",
+      url: "https://phamtranceven-lang.github.io/ALO/dte201.html",
+      note: ""
+    };
+
+    defaults[2] = {
+      id: 3,
+      title: "Tính GPA DTU",
+      url: "https://phamtranceven-lang.github.io/tinhgpadtu/",
+      note: ""
+    };
+
+    const app = document.getElementById("app");
+    const grid = document.getElementById("grid");
+    const emptyState = document.getElementById("emptyState");
+    const searchInput = document.getElementById("searchInput");
+    const modal = document.getElementById("editorModal");
+    const editForm = document.getElementById("editForm");
+    const editTitle = document.getElementById("editTitle");
+    const editUrl = document.getElementById("editUrl");
+    const editNote = document.getElementById("editNote");
+    const deleteBtn = document.getElementById("deleteBtn");
+    const toast = document.getElementById("toast");
+    const importFile = document.getElementById("importFile");
+    const zoomValue = document.getElementById("zoomValue");
+
+    let sites = loadSites();
+    let editingIndex = -1;
+    let zoomLevel = Number(localStorage.getItem(ZOOM_KEY)) || 100;
+
+    function cloneDefaults() {
+      return defaults.map(item => ({ ...item }));
+    }
+
+    function normalizeSites(source) {
+      return Array.from({ length: SLOT_COUNT }, (_, index) => {
+        const item = source?.[index] || {};
+        return {
+          id: index + 1,
+          title: typeof item.title === "string" ? item.title : "",
+          url: typeof item.url === "string" ? item.url : "",
+          note: typeof item.note === "string" ? item.note : ""
+        };
+      });
+    }
+
+    function loadSites() {
+      try {
+        const current = localStorage.getItem(STORAGE_KEY);
+        if (current) return normalizeSites(JSON.parse(current));
+
+        const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
+        if (legacy) {
+          const migrated = normalizeSites(JSON.parse(legacy));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+          return migrated;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      return cloneDefaults();
+    }
+
+    function saveSites() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(sites));
+    }
+
+    function render() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      grid.innerHTML = "";
+
+      let visible = 0;
+
+      sites.forEach((site, index) => {
+        const haystack = `${site.title} ${site.url} ${site.note}`.toLowerCase();
+        if (keyword && !haystack.includes(keyword)) return;
+
+        visible += 1;
+
+        const card = document.createElement("article");
+        const hasWebsite = Boolean(site.url.trim());
+        card.className = `card ${hasWebsite ? "active-site" : "empty-site"}`;
+
+        const shownTitle = site.title.trim() || `Website ${index + 1}`;
+        const shownNote = site.note.trim() || (hasWebsite ? "Chưa có chú thích" : "Ô trống");
+        const shownUrl = site.url.trim() || "Chưa có đường dẫn";
+
+        card.innerHTML = `
+          <div class="card-head">
+            <div class="num">${String(index + 1).padStart(2, "0")}</div>
+            <h2 class="name" title="${escapeHtml(shownTitle)}">${escapeHtml(shownTitle)}</h2>
+            ${hasWebsite ? '<span class="live-dot" title="Đã có website"></span>' : ''}
+          </div>
+          <p class="note">${escapeHtml(shownNote)}</p>
+          <div class="url-preview" title="${escapeHtml(shownUrl)}">${escapeHtml(shownUrl)}</div>
+          <div class="actions">
+            <button class="open-btn" type="button">${hasWebsite ? "Mở web ↗" : "Chưa có web"}</button>
+            <button class="edit-btn" type="button">Thay đổi</button>
+          </div>
+        `;
+
+        card.querySelector(".open-btn").addEventListener("click", () => openWebsite(site.url));
+        card.querySelector(".edit-btn").addEventListener("click", () => openEditor(index));
+
+        grid.appendChild(card);
+      });
+
+      grid.style.display = visible ? "grid" : "none";
+      emptyState.classList.toggle("show", visible === 0);
+    }
+
+    function openEditor(index) {
+      editingIndex = index;
+      const site = sites[index];
+
+      document.getElementById("modalTitle").textContent =
+        `Thay đổi website số ${index + 1}`;
+      editTitle.value = site.title;
+      editUrl.value = site.url;
+      editNote.value = site.note;
+
+      modal.classList.add("show");
+      setTimeout(() => editTitle.focus(), 50);
+    }
+
+    function closeEditor() {
+      modal.classList.remove("show");
+      editingIndex = -1;
+    }
+
+    function openWebsite(rawUrl) {
+      let value = String(rawUrl || "").trim();
+
+      if (!value) {
+        showToast("Ô này chưa có đường dẫn. Bấm “Thay đổi” để thêm.");
+        return;
+      }
+
+      if (!/^https?:\/\//i.test(value)) value = "https://" + value;
+
+      try {
+        const parsed = new URL(value);
+        window.open(parsed.href, "_blank", "noopener,noreferrer");
+      } catch {
+        showToast("Đường dẫn chưa đúng định dạng.");
+      }
+    }
+
+    function setZoom(next) {
+      zoomLevel = Math.max(60, Math.min(120, next));
+      zoomValue.textContent = `${zoomLevel}%`;
+      localStorage.setItem(ZOOM_KEY, String(zoomLevel));
+
+      // Chỉ thu/phóng phần 30 ô website.
+      // Thanh tìm kiếm và các nút zoom/xuất/nhập luôn giữ nguyên kích thước.
+      if (window.innerWidth > 1000) {
+        const scale = zoomLevel / 100;
+        grid.style.zoom = scale;
+        grid.style.width = `${100 / scale}%`;
+        grid.style.height = `${100 / scale}%`;
+      } else {
+        grid.style.zoom = "";
+        grid.style.width = "";
+        grid.style.height = "";
+      }
+
+      app.style.zoom = "";
+      app.style.width = "";
+      app.style.height = "";
+    }
+
+    function exportData() {
+      const payload = {
+        app: "Menu 30 Website",
+        version: 2,
+        exportedAt: new Date().toISOString(),
+        sites
+      };
+
+      const blob = new Blob([JSON.stringify(payload, null, 2)], {
+        type: "application/json"
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `menu-30-websites-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      showToast("Đã xuất dữ liệu.");
+    }
+
+    function importData(file) {
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          const incoming = Array.isArray(parsed) ? parsed : parsed.sites;
+          if (!Array.isArray(incoming)) throw new Error("Invalid data");
+
+          sites = normalizeSites(incoming);
+          saveSites();
+          render();
+          showToast("Đã nhập dữ liệu thành công.");
+        } catch (error) {
+          console.error(error);
+          showToast("File JSON không hợp lệ.");
+        } finally {
+          importFile.value = "";
+        }
+      };
+
+      reader.readAsText(file, "utf-8");
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 2300);
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    editForm.addEventListener("submit", event => {
+      event.preventDefault();
+      if (editingIndex < 0) return;
+
+      sites[editingIndex] = {
+        id: editingIndex + 1,
+        title: editTitle.value.trim(),
+        url: editUrl.value.trim(),
+        note: editNote.value.trim()
+      };
+
+      saveSites();
+      closeEditor();
+      render();
+      showToast("Đã lưu thay đổi.");
+    });
+
+    deleteBtn.addEventListener("click", () => {
+      if (editingIndex < 0) return;
+
+      const deletedIndex = editingIndex;
+
+      sites[deletedIndex] = {
+        id: deletedIndex + 1,
+        title: "",
+        url: "",
+        note: ""
+      };
+
+      saveSites();
+      closeEditor();
+      render();
+
+      const renderedCards = [...grid.querySelectorAll(".card")];
+      const targetCard = renderedCards.find(card => {
+        const number = card.querySelector(".num")?.textContent?.trim();
+        return number === String(deletedIndex + 1).padStart(2, "0");
+      });
+
+      if (targetCard) {
+        targetCard.classList.add("just-deleted");
+        setTimeout(() => targetCard.classList.remove("just-deleted"), 450);
+      }
+
+      showToast(`Đã xóa toàn bộ ô số ${deletedIndex + 1}.`);
+    });
+
+    document.getElementById("closeModalBtn").addEventListener("click", closeEditor);
+
+    modal.addEventListener("click", event => {
+      if (event.target === modal) closeEditor();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && modal.classList.contains("show")) {
+        closeEditor();
+      }
+    });
+
+    searchInput.addEventListener("input", render);
+
+    document.getElementById("zoomOutBtn").addEventListener("click", () => {
+      setZoom(zoomLevel - 10);
+    });
+
+    document.getElementById("zoomInBtn").addEventListener("click", () => {
+      setZoom(zoomLevel + 10);
+    });
+
+    document.getElementById("exportBtn").addEventListener("click", exportData);
+    document.getElementById("importBtn").addEventListener("click", () => importFile.click());
+    importFile.addEventListener("change", () => importData(importFile.files[0]));
+
+    window.addEventListener("resize", () => setZoom(zoomLevel));
+
+    setZoom(zoomLevel);
+    render();
+  </script>
+
+
+</body></html>
