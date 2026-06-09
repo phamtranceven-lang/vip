@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b1020">
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
   <title>Menu 30 Website</title>
   <style>
     :root {
@@ -267,26 +268,29 @@
     }
 
     .card.active-site .name {
-      color: transparent;
-      background: linear-gradient(
-        90deg,
-        #ffffff 0%,
-        #67e8f9 18%,
-        #c4b5fd 38%,
-        #f9a8d4 58%,
-        #ffffff 76%,
-        #34d399 100%
-      );
-      background-size: 260% auto;
-      -webkit-background-clip: text;
-      background-clip: text;
-      animation:
-        titleShimmer 2.4s linear infinite,
-        titleFloat 2.8s ease-in-out infinite;
+      color: #f8fafc;
+      -webkit-text-fill-color: #f8fafc;
+      background: none;
+      -webkit-background-clip: border-box;
+      background-clip: border-box;
+      animation: titleGlowPulse 2.8s ease-in-out infinite;
       text-shadow:
-        0 0 8px rgba(255,255,255,.18),
-        0 0 20px rgba(34,211,238,.22);
+        0 0 2px rgba(255,255,255,.65),
+        0 0 10px rgba(34,211,238,.30);
       letter-spacing: .01em;
+      font-weight: 950;
+      opacity: 1;
+      filter: none;
+      transform: none;
+    }
+
+
+    /* Giữ chữ tên website sắc nét khi dùng CSS zoom hoặc browser zoom */
+    .card.active-site .card-head,
+    .card.active-site .name {
+      backface-visibility: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
     }
 
     .card.active-site .num {
@@ -415,13 +419,22 @@
       }
     }
 
-    @keyframes titleShimmer {
-      to { background-position: -260% center; }
-    }
-
-    @keyframes titleFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-1.5px); }
+    @keyframes titleGlowPulse {
+      0%, 100% {
+        color: #f8fafc;
+        -webkit-text-fill-color: #f8fafc;
+        text-shadow:
+          0 0 2px rgba(255,255,255,.60),
+          0 0 8px rgba(34,211,238,.22);
+      }
+      50% {
+        color: #ffffff;
+        -webkit-text-fill-color: #ffffff;
+        text-shadow:
+          0 0 3px rgba(255,255,255,.90),
+          0 0 13px rgba(34,211,238,.44),
+          0 0 20px rgba(139,92,246,.20);
+      }
     }
 
     @keyframes cardSweep {
@@ -766,7 +779,8 @@
         </div>
       </div>
 
-      <input id="searchInput" class="search" type="search" placeholder="Tìm tên, link hoặc chú thích..." autocomplete="off">
+      <input id="searchInput" class="search" type="search"
+             placeholder="Tìm tên, link hoặc chú thích..." autocomplete="off" />
 
       <div class="tools">
         <div class="zoom-box" title="Thu nhỏ hoặc phóng to riêng phần danh sách website">
@@ -776,372 +790,12 @@
         </div>
         <button id="exportBtn" class="tool-btn" type="button">⬇ <span>Xuất</span></button>
         <button id="importBtn" class="tool-btn" type="button">⬆ <span>Nhập</span></button>
-        <input id="importFile" class="hidden-input" type="file" accept=".json,application/json">
+        <input id="importFile" class="hidden-input" type="file" accept=".json,application/json" />
       </div>
     </header>
 
     <section class="grid-wrap">
-      <div id="grid" class="grid" style="zoom: 1; width: 100%; height: 100%; display: grid;"><article class="card active-site">
-          <div class="card-head">
-            <div class="num">01</div>
-            <h2 class="name" title="Tạo ngẫu nhiên">Tạo ngẫu nhiên</h2>
-            <span class="live-dot" title="Đã có website"></span>
-          </div>
-          <p class="note">Chưa có chú thích</p>
-          <div class="url-preview" title="https://phamtranceven-lang.github.io/ALO/taongaunhienso.html">https://phamtranceven-lang.github.io/ALO/taongaunhienso.html</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Mở web ↗</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card active-site">
-          <div class="card-head">
-            <div class="num">02</div>
-            <h2 class="name" title="DTE201">DTE201</h2>
-            <span class="live-dot" title="Đã có website"></span>
-          </div>
-          <p class="note">Chưa có chú thích</p>
-          <div class="url-preview" title="https://phamtranceven-lang.github.io/ALO/dte201.html">https://phamtranceven-lang.github.io/ALO/dte201.html</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Mở web ↗</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card active-site">
-          <div class="card-head">
-            <div class="num">03</div>
-            <h2 class="name" title="Tính GPA DTU">Tính GPA DTU</h2>
-            <span class="live-dot" title="Đã có website"></span>
-          </div>
-          <p class="note">Chưa có chú thích</p>
-          <div class="url-preview" title="https://phamtranceven-lang.github.io/tinhgpadtu/">https://phamtranceven-lang.github.io/tinhgpadtu/</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Mở web ↗</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">04</div>
-            <h2 class="name" title="Website 4">Website 4</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">05</div>
-            <h2 class="name" title="Website 5">Website 5</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">06</div>
-            <h2 class="name" title="Website 6">Website 6</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">07</div>
-            <h2 class="name" title="Website 7">Website 7</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">08</div>
-            <h2 class="name" title="Website 8">Website 8</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">09</div>
-            <h2 class="name" title="Website 9">Website 9</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">10</div>
-            <h2 class="name" title="Website 10">Website 10</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">11</div>
-            <h2 class="name" title="Website 11">Website 11</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">12</div>
-            <h2 class="name" title="Website 12">Website 12</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">13</div>
-            <h2 class="name" title="Website 13">Website 13</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">14</div>
-            <h2 class="name" title="Website 14">Website 14</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">15</div>
-            <h2 class="name" title="Website 15">Website 15</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">16</div>
-            <h2 class="name" title="Website 16">Website 16</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">17</div>
-            <h2 class="name" title="Website 17">Website 17</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">18</div>
-            <h2 class="name" title="Website 18">Website 18</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">19</div>
-            <h2 class="name" title="Website 19">Website 19</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">20</div>
-            <h2 class="name" title="Website 20">Website 20</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">21</div>
-            <h2 class="name" title="Website 21">Website 21</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">22</div>
-            <h2 class="name" title="Website 22">Website 22</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">23</div>
-            <h2 class="name" title="Website 23">Website 23</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">24</div>
-            <h2 class="name" title="Website 24">Website 24</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">25</div>
-            <h2 class="name" title="Website 25">Website 25</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">26</div>
-            <h2 class="name" title="Website 26">Website 26</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">27</div>
-            <h2 class="name" title="Website 27">Website 27</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">28</div>
-            <h2 class="name" title="Website 28">Website 28</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">29</div>
-            <h2 class="name" title="Website 29">Website 29</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article><article class="card empty-site">
-          <div class="card-head">
-            <div class="num">30</div>
-            <h2 class="name" title="Website 30">Website 30</h2>
-            
-          </div>
-          <p class="note">Ô trống</p>
-          <div class="url-preview" title="Chưa có đường dẫn">Chưa có đường dẫn</div>
-          <div class="actions">
-            <button class="open-btn" type="button">Chưa có web</button>
-            <button class="edit-btn" type="button">Thay đổi</button>
-          </div>
-        </article></div>
+      <div id="grid" class="grid"></div>
       <div id="emptyState" class="empty">Không tìm thấy website phù hợp.</div>
     </section>
   </main>
@@ -1157,12 +811,12 @@
         <div class="form">
           <div class="field">
             <label for="editTitle">Tên website</label>
-            <input id="editTitle" type="text" maxlength="100" placeholder="Ví dụ: Tính GPA DTU">
+            <input id="editTitle" type="text" maxlength="100" placeholder="Ví dụ: Tính GPA DTU" />
           </div>
 
           <div class="field">
             <label for="editUrl">Đường dẫn</label>
-            <input id="editUrl" type="url" placeholder="https://...">
+            <input id="editUrl" type="url" placeholder="https://..." />
           </div>
 
           <div class="field">
@@ -1516,6 +1170,5 @@
     setZoom(zoomLevel);
     render();
   </script>
-
-
-</body></html>
+</body>
+</html>
